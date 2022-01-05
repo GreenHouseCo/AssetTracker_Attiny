@@ -1,3 +1,4 @@
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  @file    Menu.c 
@@ -14,20 +15,10 @@
 */
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool RtcDelay(uint8_t _delay_time,uint32_t _start_time)
-{
-  uint32_t _now_time = millis();
-  if(_delay_time>=(_now_time-_start_time)/1000) //millis 単位 1 mili second
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
+#include <avr/interrupt.h>
+#include <avr/sleep.h>
 
-uint32_t NowTime()
+bool ReedSW()
 {
-  return millis();
+  return !digitalRead(ReedSwInt);
 }

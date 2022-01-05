@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /**
+ @file    Menu.c 
  @author  Green House Si
  @date    V1.0.0      2021/07/26
  @note    CPU         ESP32_C3
@@ -9,6 +10,7 @@
  @note    CPU         Attiny1626
  
           COMPILER    Arduino IDE
+          DETAIL      Menu setting
 */
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,9 +51,9 @@ void factory_Reset(){
       SEEPROM_saved* pCache;
       loadToCache();
       pCache = getCache();
-      pCache->timer_Time = 1440;
-      pCache->reedSwitch_Time = 60;
-      pCache->active_Time = 60;
+      pCache->timer_Time = 5;
+      pCache->reedSwitch_Time = 1;
+      pCache->active_Time = 1;
       pCache->sigmot.slope_Sensitivity = 20;
       pCache->sigmot.slope_number = 3;
       pCache->endcode = 0x99;

@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /**
+ @file    Menu.c 
  @author  Green House Si
  @date    V1.0.0      2021/07/26
  @note    CPU         ESP32_C3
@@ -9,6 +10,7 @@
  @note    CPU         Attiny1626
  
           COMPILER    Arduino IDE
+          DETAIL      Menu setting
 */
 /////////////////////////////////////////////////////////////////////////////////////////////////
 #include <Wire.h>
@@ -18,9 +20,8 @@ void Accel_Init(){
   pCache = getCache();
   pCache->sigmot.slope_Sensitivity&=0xFF;
   pCache->sigmot.slope_number&=0xFF;
-  digitalWrite(Sigfox_Pw, HIGH);
-  delay(3000);
   Wire.begin();
+  delay(3000);
   i2c_write(0x0F,0x14,0xB6);
   delay(100);
   i2c_write(0x0F,0x21,0x0B);
@@ -39,7 +40,7 @@ void Accel_Init(){
 //  delay(100); 
   i2c_write(0x0F,0x16,0x07);
   delay(100);
-  i2c_write(0x0F,0x19,0xF0); // INT1<>INT2 Board wrong => NOW INT1 ENANLE
+  i2c_write(0x0F,0x19,0xF0); // INT1<>INT2 Board wrong => NOW INT1 ENABLE
   delay(100);
 //  char buff=i2c_Read(0x0F,0x00);
 //  delay(10);
@@ -47,8 +48,6 @@ void Accel_Init(){
 //  delay(100);
   i2c_write(0x0F,0x11,0x4C);
   delay(100);
-  digitalWrite(Sigfox_Pw, LOW);
-  delay(1000);
 }
 
 void i2c_write(int sensor_Addr,int register_Addr, int val)

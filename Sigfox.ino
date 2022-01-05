@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /**
+ @file    Menu.c 
  @author  Green House Si
  @date    V1.0.0      2021/07/26
  @note    CPU         ESP32_C3
@@ -9,6 +10,7 @@
  @note    CPU         Attiny1626
  
           COMPILER    Arduino IDE
+          DETAIL      Menu setting
 */
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -16,7 +18,7 @@ bool sigfox_Send_PayLoad(uint8_t* PayloadSend)
 {
   softSerial.begin(9600); 
   delay(100);
-  softSerial.println("Sigfox start");
+  Serial.println("Sigfox start");
   digitalWrite(Sigfox_Pw, HIGH);
   delay(2000);
 //  char sigfoxBuf[36]={""};
@@ -64,8 +66,7 @@ bool sigfox_Send_PayLoad(uint8_t* PayloadSend)
           else if(Sendflag=true&&RxReadC=='K')
           {
  //           Serial.print(RxReadC);
-            Serial.println("Send SigFox OK");
-            delay(200);
+              dPrintln("Send SigFox OK");
             break;
           }
    }else 
