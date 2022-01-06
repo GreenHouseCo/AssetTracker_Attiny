@@ -19,7 +19,7 @@
 #include "EEPROM.h"
 
 //--------Signal---------PIN Define--Device NO******Pin Assign
-  #define DVERSION "2.0.0"
+  #define DVERSION "2.0.2"
   #define ExtSensorPw     12    //    14  外部センサーの電源制御端子
   #define BAT_MONI        1     //    3   Batteryの電圧読み込む端子
   #define BAT_V_CHK       4     //    6   ReedSwitch読み込む端子
@@ -76,22 +76,22 @@ void setup() {
   loadToCache();
   pCache = getCache();
   if(pCache->endcode != 0x99){
-     factory_Reset();
+//     factory_Reset();
   }   
   Serial.print("\r\n SLEEP : (Min) - ");//,pCache->timer_Time*60);
   Serial.println(pCache->timer_Time);
 //  Accel_Init();
-  GpioInit();
+//  GpioInit();
 
   Serial.print("\r\n SLEEP : (Min) - ");//,pCache->timer_Time*60);
   Serial.println(pCache->timer_Time);
   Serial.println("----------RESET----------");
   delay(100);
+
 }
 
 void loop()
 {
-
 //  SEEPROM_saved* pCache;
 //  pCache = getCache();
 //  loadToCache();
@@ -100,7 +100,6 @@ void loop()
   switch(myWorkFlag.ModeSet)
   {
     case 0: //DEEP_SLEEP
-
       Serial.println("Menu Board On/Off Put:1/0 Timeout 10second");
       while(1)
       {
@@ -112,7 +111,7 @@ void loop()
         }
         break;
       }
-      myWorkFlag.ModeSet=3;
+      myWorkFlag.ModeSet=1;
       break;
     case 1:
       MacPayLoad();

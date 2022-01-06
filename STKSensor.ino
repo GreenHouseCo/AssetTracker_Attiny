@@ -46,7 +46,7 @@ void Accel_Init(){
 //  delay(10);
 //  Serial.print(buff);
 //  delay(100);
-  i2c_write(0x0F,0x11,0x4C);
+  i2c_write(0x0F,0x11,0x5E );
   delay(100);
 }
 

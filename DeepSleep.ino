@@ -17,7 +17,6 @@
 #include <avr/sleep.h>
 #include <avr/wdt.h>
 #include <avr/interrupt.h>
-
 void sleepMode(){
 
   digitalWrite(ExtSensorPw, LOW);
@@ -123,11 +122,11 @@ if(DebugP!=1)
   CPU_CCP = 0x00;
   delay(1000); 
 //  Serial.begin(115200);
-//  delay(1000);           
+//  delay(1000);
   Serial.println(F("\r\nWAKE UP!\r\n"));
 //  Serial.printf("myWorkFlag.wakeupAct2= %d \r\n",myWorkFlag.wakeupAct);
   delay(1000);
-  myWorkFlag.ModeSet=3;
+//  myWorkFlag.ModeSet=3;
 }
 
 void DeepSleepStart(RTC_PERIOD_t time) 

@@ -51,7 +51,7 @@ void factory_Reset(){
       SEEPROM_saved* pCache;
       loadToCache();
       pCache = getCache();
-      pCache->timer_Time = 5;
+      pCache->timer_Time = 20;
       pCache->reedSwitch_Time = 1;
       pCache->active_Time = 1;
       pCache->sigmot.slope_Sensitivity = 20;
