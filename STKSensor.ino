@@ -16,6 +16,7 @@
 #include <Wire.h>
 
 void Accel_Init(){
+  loadToCache();
   SEEPROM_saved *pCache;
   pCache = getCache();
   pCache->sigmot.slope_Sensitivity&=0xFF;

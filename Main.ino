@@ -76,12 +76,12 @@ void setup() {
   loadToCache();
   pCache = getCache();
   if(pCache->endcode != 0x99){
-//     factory_Reset();
+    factory_Reset();
   }   
-  Serial.print("\r\n SLEEP : (Min) - ");//,pCache->timer_Time*60);
-  Serial.println(pCache->timer_Time);
+  // Serial.print("\r\n SLEEP : (Min) - ");//,pCache->timer_Time*60);
+  // Serial.println(pCache->timer_Time);
 //  Accel_Init();
-//  GpioInit();
+ GpioInit();
 
   Serial.print("\r\n SLEEP : (Min) - ");//,pCache->timer_Time*60);
   Serial.println(pCache->timer_Time);

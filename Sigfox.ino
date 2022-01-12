@@ -99,27 +99,32 @@ void set_Payload(uint8_t *payload){
 }
 
 void sigfox_Get_ID(char *sigfoxID){
-//  softSerial.begin(9600);
+  softSerial.begin(9600);
   digitalWrite(Sigfox_Pw, HIGH);
   delay(1000);
   softSerial.print("AT$I=10\r");
   sigfox_Get_Data(sigfoxID, 8, 5);
 //  Serial.print(sigfoxID);
   delay(100);
-  digitalWrite(Sigfox_Pw, LOW); 
-  delay(100);
+  digitalWrite(Sigfox_Pw, LOW);
+  // delay(200);
+  softSerial.end();
+  delay(200); 
+  // delay(100);
 }
 
 void sigfox_Get_PAC(char *sigfoxPAC){
-//  softSerial.begin(9600);
+  softSerial.begin(9600);
   digitalWrite(Sigfox_Pw, HIGH);
   delay(1000);
   softSerial.print("AT$I=11\r");
   sigfox_Get_Data(sigfoxPAC, 16, 5);
 //  Serial.print(sigfoxPAC);
   delay(100);
-  digitalWrite(Sigfox_Pw, LOW); 
-  delay(100);
+  digitalWrite(Sigfox_Pw, LOW);
+  softSerial.end();
+  delay(200);
+  // delay(100);
 }
 
 /********************************************************************************/
@@ -165,10 +170,12 @@ void sigfox_Get_Data(char *data_Buf, uint8_t bufLength, uint8_t waitingTime){
 /*  Return: None                                                                */
 /********************************************************************************/
 void test_Sigfox(){
+  softSerial.begin(9600);
   digitalWrite(Sigfox_Pw, HIGH);
   delay(2000);
   softSerial.print("AT$CW=923200000,1,14\r\n");
   delay(1000);
   digitalWrite(Sigfox_Pw, LOW);
+  softSerial.end();
   delay(2000);
 }

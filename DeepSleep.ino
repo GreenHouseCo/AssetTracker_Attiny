@@ -27,9 +27,11 @@ void sleepMode(){
   Accel_Init();  
   delay(100);
 
+  loadToCache();
   SEEPROM_saved* pCache;
   pCache = getCache();
   uint32_t WakeUpT =(uint32_t)pCache->timer_Time *(60);
+  
 //  Serial.println(WakeUpT);
   // double Timebuf = 1.2; // Before Time up watchdog time count reset
   // int counter = 0;
