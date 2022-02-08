@@ -22,6 +22,7 @@
 /*  Return: None                                                                */
 /********************************************************************************/
 void setting_Menu(){  
+  loadToCache();
   SEEPROM_saved *pCache;
   pCache = getCache();
   byte inByte;
@@ -39,9 +40,11 @@ void setting_Menu(){
       Serial.printf("0: Start\r\n");
       Serial.printf("\r\n%S", "Input Number: ");
       while(1){
+            uint8_t number;
             memset(buf, 0, sizeof(buf));
             getSerialData(buf, sizeof(buf),10);
-            switch (atoi(buf)){
+            number = atoi(buf);
+            switch (number){
             case 1:
               Serial.print("\r\n\r\n Device Settings\r\n");
               device_Menu();
@@ -58,6 +61,7 @@ void setting_Menu(){
               saveToEEPROM();
               sigfox_Get_PAC(pCache->sigfox_PAC);
               saveToEEPROM();
+              breakLoop = true;
               break;
             case 0:
               Serial.println("\r\nSetting Finish!\r\n");
@@ -67,15 +71,15 @@ void setting_Menu(){
               Serial.print("Input Number: ");
               break;
             }
-           if(breakLoop){
-            if(atoi(buf) == 0){
-              breakLoop = true;
-            }else{
-              breakLoop = false;
+            if(breakLoop){
+              if(number == 0){
+                breakLoop = true;
+              }else{
+                breakLoop = false;
+              }
+                break;
             }
-             break;
-           }
-          delay(10);
+            delay(10);
       }
       if(breakLoop){
         break;
@@ -100,7 +104,7 @@ void device_Menu(){
   SEEPROM_saved *pCache;
   pCache = getCache();
   while(1){
-      Serial.println("\r\n");
+      Serial.println("");
       Serial.printf("1: Inactive Time: %d (Min)\r\n",pCache->timer_Time);
       Serial.printf("2: Reed Switch Time:%d (Min)\r\n",pCache->reedSwitch_Time);
       Serial.printf("3: Active Time: %d (Min)\r\n",pCache->active_Time);
@@ -108,9 +112,11 @@ void device_Menu(){
       Serial.print("0: Back\r\n");
       Serial.print("Input Number: ");
       while(1){
+              uint8_t number;
               memset(buf, 0, sizeof(buf));
               getSerialData(buf, sizeof(buf),waittime);
-              switch (atoi(buf)){
+              number = atoi(buf);
+              switch (number){
               case 1:
                 Serial.println("Interval Timer Wake up Time (Minute: 0-43200)");
                 Serial.print("Input Number: ");  
@@ -151,7 +157,7 @@ void device_Menu(){
                 breakLoop = true;
                 break;
              case 4:
-                Serial.print("\r\n\r\n significant motion Interrupt Setting\r\n");
+                Serial.print("\r\n\r\nSignificant motion Interrupt Setting\r\n");
                 sigmot_Menu();
                 breakLoop = true;
                 break;
@@ -163,7 +169,7 @@ void device_Menu(){
                 break;
               }
           if(breakLoop){
-            if(atoi(buf) == 0){
+            if(number == 0){
               breakLoop = true;
             }else{
               breakLoop = false;
@@ -195,15 +201,17 @@ void sigmot_Menu(){
   SEEPROM_saved *pCache;
   pCache = getCache();
   while(1){
-      Serial.println("\r\n");
+      Serial.println("");
       Serial.printf("1: Slope Sensitivity:%d\r\n",pCache->sigmot.slope_Sensitivity);
       Serial.printf("2: Slope Samples Number:%d\r\n",pCache->sigmot.slope_number);
       Serial.print("0: Back\r\n");
       Serial.printf("Input Number: ");
       while(1){
+              uint8_t number;
               memset(buf, 0, sizeof(buf));
               getSerialData(buf, sizeof(buf),waittime);
-              switch (atoi(buf)){
+              number = atoi(buf);
+              switch (number){
               case 1:
                 Serial.println("Slope Sensitivity (0-255)");
                 Serial.print("Input Number: ");
@@ -238,7 +246,7 @@ void sigmot_Menu(){
                 break;
               }
           if(breakLoop){
-            if(atoi(buf) == 0){
+            if(number == 0){
               breakLoop = true;
             }else{
               breakLoop = false;
