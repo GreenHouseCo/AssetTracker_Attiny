@@ -56,23 +56,27 @@ bool sigfox_Send_PayLoad(uint8_t* PayloadSend)
   bool Sendflag=false;
   uint32_t TimeStart=NowTime();
   bool delaytime=true;                       
-  while(delaytime){
-    if (softSerial.available()) { /* check RX */
+  while(delaytime)
+  {
+    if (softSerial.available()) 
+    { /* check RX */
         char RxReadC = softSerial.read();
-        if(RxReadC=='O'){
- //         Serial.print(RxReadC);
-          Sendflag=true;
-          }
-          else if(Sendflag=true&&RxReadC=='K')
-          {
- //           Serial.print(RxReadC);
-              dPrintln("Send SigFox OK");
+        if(RxReadC=='O')
+        {
+            Serial.print(RxReadC);
+            Sendflag=true;
+        }
+        else if((Sendflag=true)&&(RxReadC=='K'))
+        {
+            Serial.print(RxReadC);
+            dPrintln("Send SigFox OK");
             break;
-          }
-   }else 
-   {
+        }
+        Serial.print("!");
+    }
     delaytime=RtcDelay(20,TimeStart);
-   }
+    Serial.print(".");
+    delay(100);
   }
   
   digitalWrite(Sigfox_Pw, LOW);
@@ -80,6 +84,8 @@ bool sigfox_Send_PayLoad(uint8_t* PayloadSend)
   softSerial.end();
   delay(200);
   myWorkFlag.ModeSet=3;
+
+  return true;
 }
 
 void set_Payload(uint8_t *payload){

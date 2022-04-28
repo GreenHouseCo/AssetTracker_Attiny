@@ -25,7 +25,6 @@ void setting_Menu(){
   loadToCache();
   SEEPROM_saved *pCache;
   pCache = getCache();
-  byte inByte;
   bool breakLoop = false;
   char buf[1];
     while(1){
@@ -95,11 +94,11 @@ void setting_Menu(){
 /*  Return: None                                                                */
 /********************************************************************************/
 
-void device_Menu(){
+void device_Menu()
+{
   bool breakLoop = false;
   char buf[1];
   char buf5[5];
-  char buf1[1];
   uint8_t waittime=10;
   SEEPROM_saved *pCache;
   pCache = getCache();
@@ -271,11 +270,10 @@ void sigmot_Menu(){
 /*  Return: buffer data                                                         */
 /********************************************************************************/
 
-void getSerialData(char *buf, uint8_t bufLength,uint16_t gettime){
+void getSerialData(char *buf, uint8_t bufLength,uint16_t gettime)
+{
   uint8_t count = 0;
-  uint32_t result = 0;
   int inByte;
-  memset(buf, 0, sizeof(buf));
   uint32_t TimeStart=NowTime();
   bool delaytime=true;
   while(delaytime){

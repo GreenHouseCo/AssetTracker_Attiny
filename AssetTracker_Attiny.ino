@@ -39,38 +39,38 @@
   #define Sensor_SDA      8     //    10  I2C SDA端子
   #define Sensor_SCL      9     //    11  I2C SCL端子
 //--------Signal---------PIN Define--Device NO******Pin Assign
-
-
   
 SoftwareSerial softSerial(RXD_Sigfox, TXD_Sigfox);  // RX, TX
 
- #define DebugP    0   // Debug Print Uart
-   
- uint8_t MacPayload[12]={0};
+#define DebugP    0   // Debug Print Uart 
+uint8_t MacPayload[12]={0};
 
-static struct{
+static struct
+{
   bool   wakeupWdt=false;
   bool   wakeupSW=false;
   bool   wakeupAct=false; 
   bool   InterruptFlag=false;
   uint8_t ModeSet=0;
-}myWorkFlag;
+} myWorkFlag;
 
-typedef struct{
+typedef struct
+{
   uint16_t  timer_Time;
   uint16_t  reedSwitch_Time;
   uint16_t  active_Time;
   uint8_t   endcode;
-  struct {
+  struct 
+  {
     uint8_t   slope_Sensitivity;
     uint8_t   slope_number;
-  }sigmot;
+  } sigmot;
   char sigfox_ID[10];
   char sigfox_PAC[20];
-}SEEPROM_saved;
+} SEEPROM_saved;
 
-void setup() { 
-  
+void setup() 
+{ 
   Serial.begin(115200); //ESP TX,RX    
   SEEPROM_saved* pCache;
   loadToCache();
@@ -80,14 +80,13 @@ void setup() {
   }   
   // Serial.print("\r\n SLEEP : (Min) - ");//,pCache->timer_Time*60);
   // Serial.println(pCache->timer_Time);
-//  Accel_Init();
- GpioInit();
+  // Accel_Init();
+  GpioInit();
 
   Serial.print("\r\n SLEEP : (Min) - ");//,pCache->timer_Time*60);
   Serial.println(pCache->timer_Time);
   Serial.println("----------RESET----------");
   delay(100);
-
 }
 
 void loop()
@@ -103,7 +102,7 @@ void loop()
       Serial.println("Menu Board On/Off Put:1/0 Timeout 10second");
       while(1)
       {
-        char MenuFlag="";
+        char MenuFlag;
         getSerialData(&MenuFlag,1,10);
         if(MenuFlag=='1')
         {

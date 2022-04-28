@@ -24,20 +24,24 @@
 /*           *name: pointer black list or white list ssid                        */
 /*  Return: false(ssid don't have name)| true(ssid have name)                    */
 /*********************************************************************************/
- static bool check_ssid_name(char * ssid, char * name) {
-  bool bret = false;
+ static bool check_ssid_name(char * ssid, char * name) 
+ {
+  bool    bret = false;
+  uint8_t wkCnt = 0;
   delay(1);
   Serial.print("ssidTest");
   Serial.println(ssid);
   Serial.print("nameTest");
   Serial.println(name);
   delay(1);
-  for(int i = 0; i<strlen(ssid);i++) {
+  wkCnt = strlen(ssid);
+  for(int i = 0; i<wkCnt;i++) {
     if (ssid[i] >='A' && ssid[i] <= 'Z') {
       ssid[i] += 32;
     }
   }
-  for(int i = 0; i<strlen(name);i++) {
+  wkCnt = strlen(name);
+  for(int i = 0; i<wkCnt;i++) {
     if (name[i] >='A' && name[i] <= 'Z') {
       name[i] += 32;
     }
@@ -50,7 +54,6 @@
   }else{
     bret = true;
   }
-
   return bret;
 }
 
@@ -113,12 +116,11 @@ void dPrintln(Stypeln Comment)
 #endif
 }
 
-
 //template <typename Sstypeln>
 bool CheckDataSize(char* DataC,int LengthC)
 {
-  char* Buf;
-  sprintf(Buf,"Data Length = %d ",sizeof(*DataC));
+  char Buf[128];
+  sprintf(Buf, "Data Length = %d ",sizeof(*DataC));
   dPrint(Buf);
   if(sizeof(*DataC)==LengthC)
   {

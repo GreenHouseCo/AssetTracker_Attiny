@@ -23,12 +23,15 @@ const char *ssidBlackProc[] = {
   "sony",       //BMac 5
 
 };
-uint8_t BlackMacMax=5;
+
+#define BlackMacMax   5
+
 /*black list start*/
 
 /*white list start*/
-static const char *ssidWhiteProc[] = {
-    "powernetwork",    //WMac 0
+static const char *ssidWhiteProc[] = 
+{
+    "powernetwork",   //WMac 0
     "actiontec",      //WMac 1
     "arris",          //WMac 2
     "at&t",           //WMac 3
@@ -80,22 +83,10 @@ static const char *ssidWhiteProc[] = {
 void MacPayLoad()
 {
   memset(MacPayload,0,sizeof(MacPayload));
-  uint8_t starttime=millis();
   WIFI_ON();
-  WIFI_RESET();
-//  WIFI_SCAN();
-//  delay(100);
-
-//  PayLoad_Prosse();  
-//    bool WhiteMacFlag=PayLoad_Prosse();
-//    if(WhiteMacFlag){
-//      Serial.print("WHITE LIST");
-//      delay(100);
-//    }
-      
- for(uint8_t i=0; i<3;i++)
- {
-//    WIFI_RESET();
+  WIFI_RESET();      
+  for(uint8_t i=0; i<3;i++)
+  {
     WIFI_SCAN();
     delay(100);
     bool WhiteMacFlag= false;
@@ -105,7 +96,7 @@ void MacPayLoad()
     if(WhiteMacFlag){
       break;
     }
- }
+  }
   WIFI_OFF();
   delay(500);
   Serial.print("StartSet");
@@ -117,11 +108,11 @@ void MacPayLoad()
   for(uint8_t i=0; i<2;i++)
   {
     int WhiteMac=0;;
-    if(WhiteMac1<10&&i==0)
+    if((WhiteMac1<10)&&(i==0))
     {
       WhiteMac=WhiteMac1;
     }
-    else if(WhiteMac2<10&&i==1)
+    else if((WhiteMac2<10)&&(i==1))
     {
       WhiteMac=WhiteMac2;
     }
@@ -130,12 +121,12 @@ void MacPayLoad()
       buff=ChartoInt(RxMACPayLoad[WhiteMac][j]);
       if(flagBit)
       {
-        MSB_Bit=buff<<4&0xF0;
+        MSB_Bit=(buff<<4)&0xF0;
         flagBit=false;
       }
       else
       {
-        MacPayload[MacByte]=buff|MSB_Bit&0xF0;
+        MacPayload[MacByte] = buff | (MSB_Bit & 0xF0);
         flagBit=true;
         MacByte++;
       }
@@ -146,7 +137,6 @@ void MacPayLoad()
     }
   }
   delay(200);
-//  Serial.print(MacPayload);
   for(int i=0;i<12;i++)
   {
     Serial.print(MacPayload[i],HEX);
@@ -164,11 +154,9 @@ void MacPayLoad()
 
 bool PayLoad_Prosse()
 {
-
   // Data process
   char RxSSID[10][32]={""};
   char RxRSSI[10][4]={""};
-  char RxMAC[10][17]={""};
   uint8_t BuffIndex=0;
   uint8_t WriteIndex=0;
   uint8_t MacWriteIndex=0;
@@ -225,14 +213,12 @@ bool PayLoad_Prosse()
             WriteIndex++;
             break;
           case 3:
-            RxMAC[i][WriteIndex]=Payloadbuf[i][j];
             if(Payloadbuf[i][j]!=':')
             {
               RxMACPayLoad[i][MacWriteIndex]=Payloadbuf[i][j];
               dPrint(RxMACPayLoad[i][MacWriteIndex]);
               MacWriteIndex++;
             }
- //           dPrint(RxMAC[i][WriteIndex]);
             WriteIndex++;
             break;
           default :
@@ -242,22 +228,22 @@ bool PayLoad_Prosse()
     }
     BuffIndex=0;
     delay(100);
-      
   }
   RxIndex=0;
-  bool flagRssiWhite = false;
   bool flagRssiBlack = true;
   uint8_t MacRandom1=88;
   uint8_t MacRandom2=88;
   for(uint8_t i=0;i<MacIndex;i++)
   {
-    for (uint8_t key_idx = 0; key_idx <=WhiteMacMax; key_idx++) {
-      if((char *)RxSSID[i]=="0")
+    for (uint8_t key_idx = 0; key_idx <= WhiteMacMax; key_idx++) 
+    {
+      if(strncmp(RxSSID[i], "0", 1) == 0)
       {
         dPrintln("RxSSID Empty");
         break;
       }
-      if (check_ssid_name(((char *)RxSSID[i]),(char *)ssidWhiteProc[key_idx])==false) {
+      if (check_ssid_name(((char *)RxSSID[i]),(char *)ssidWhiteProc[key_idx])==false) 
+      {
         flagRssiBlack = false;
         if(WhiteMac1==99)
         {
@@ -268,11 +254,7 @@ bool PayLoad_Prosse()
         else
         {
           int IntRSSI1=atoi(RxRSSI[WhiteMac1]);
-//          Serial.print("IntRSSI1");
-//          Serial.println(IntRSSI1);
           int8_t IntRSSI2=atoi(RxRSSI[i]);
-//          Serial.print("IntRSSI2");
-//          Serial.println(IntRSSI2);
           if(IntRSSI1<IntRSSI2)
           {
             WhiteMac2=WhiteMac1;
@@ -286,14 +268,14 @@ bool PayLoad_Prosse()
           break;
         }
       }
-//                  Delay(10);
     }
     if(flagRssiBlack)
     {
-       bool BlackListFlag=false;
-       for (uint8_t key_idx = 0; key_idx <= BlackMacMax; key_idx++) {
+      bool BlackListFlag = false;
+      for (uint8_t key_idx = 0; key_idx >= BlackMacMax; key_idx++) 
+      {
         if (check_ssid_name(((char *)RxSSID[i]),(char *)ssidBlackProc[key_idx])==false) {
-           BlackListFlag=true;
+          BlackListFlag=true;
         }
         if(BlackListFlag)
         {
@@ -308,14 +290,11 @@ bool PayLoad_Prosse()
         {
           MacRandom2=i;
         }
-        
-     }
-      
+      }
     }
-    if(WhiteMac1!=99&&WhiteMac2!=99&&i>=(MacIndex-1))
+    if((WhiteMac1!=99) && (WhiteMac2!=99) && (i>=(MacIndex-1)))
     {
       dPrintln("WHITE LIST OK");
-      flagRssiWhite=true;
       MacIndex=0;
       return true;
     }
@@ -337,7 +316,6 @@ bool PayLoad_Prosse()
   dPrintln("Pro END");
   delay(100);
   return false;
-
 }
 
 void WIFI_ON()

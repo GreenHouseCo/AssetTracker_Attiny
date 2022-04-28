@@ -21,30 +21,35 @@ static SEEPROM_saved EEPROM_saved;
 SEEPROM_saved* getCache(){
   return &EEPROM_saved;
 }
-static void loadToCache(){
+
+static void loadToCache()
+{
   uint8_t *p;
   int i;
+  uint8_t wkCnt = 0;
   p = (uint8_t*)&EEPROM_saved;
   
-  for(i=0;i<sizeof(EEPROM_saved);i++){
+  wkCnt = sizeof(EEPROM_saved);
+  for(i=0;i<wkCnt;i++){
     *p = EEPROM.read(i);
     p++;
   }
-  
 }
+
 static void saveToEEPROM(){
 #if 1
   uint8_t *p;
   int i;
+  uint8_t wkCnt = 0;
   p = (uint8_t*)&EEPROM_saved;
-  for(i=0;i<sizeof(EEPROM_saved);i++){
+  wkCnt = sizeof(EEPROM_saved);
+  for(i=0;i<wkCnt;i++)
+  {
     EEPROM.write(i,*p);
     p++;
   }
 #endif
-
 }
-
 
 void factory_Reset(){
 

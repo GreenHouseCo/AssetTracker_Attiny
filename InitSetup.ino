@@ -20,8 +20,8 @@ void GpioInit()
   pinMode(BAT_MONI, OUTPUT);
   pinMode(WIFI_Pw, OUTPUT);
   pinMode(Sigfox_Pw, OUTPUT);
-//  pinMode(TXD_Sigfox, OUTPUT);
-//  pinMode(TXD_WIFI, OUTPUT);
+//pinMode(TXD_Sigfox, OUTPUT);
+//pinMode(TXD_WIFI, OUTPUT);
   
   pinMode(BAT_V_CHK, INPUT);
   pinMode(ReedSwInt, INPUT);
@@ -32,13 +32,6 @@ void GpioInit()
   digitalWrite(BAT_MONI, LOW);
   digitalWrite(WIFI_Pw, LOW);
   digitalWrite(Sigfox_Pw, LOW);
-//  digitalWrite(STK8323_INT1, LOW);
-//  digitalWrite(STK8323_INT2, LOW);
+//digitalWrite(STK8323_INT1, LOW);
+//digitalWrite(STK8323_INT2, LOW);
 }
-
-enum
-{
-  DEEP_SLEEP,
-  SCAN_WIFI,
-  SIGFOX_SEND
-}WorkSet;
