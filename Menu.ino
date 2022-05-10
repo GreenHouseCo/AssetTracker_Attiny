@@ -276,6 +276,7 @@ void getSerialData(char *buf, uint8_t bufLength,uint16_t gettime)
   int inByte;
   uint32_t TimeStart=NowTime();
   bool delaytime=true;
+  memset(buf, 0, sizeof(buf));
   while(delaytime){
     if (Serial.available()) { /* check RX */
         inByte = Serial.read();
