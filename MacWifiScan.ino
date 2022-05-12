@@ -82,7 +82,8 @@ static const char *ssidWhiteProc[] =
 //   uint8_t PayloadSend[12]={0};
 void MacPayLoad()
 {
-  softSerial.begin(115200);
+  // softSerial.begin(115200);
+  Serial1.begin(115200);
   memset(MacPayload,0,sizeof(MacPayload));
   WIFI_ON();
   WIFI_RESET();      
@@ -102,7 +103,7 @@ void MacPayLoad()
   delay(500);
   Serial.println("StartSet");
   delay(200);
-  softSerial.end();
+  Serial1.end();
   delay(200);
   uint8_t MSB_Bit=0;
   bool flagBit=true;
@@ -340,14 +341,14 @@ void WIFI_OFF()
 
 void WIFI_RESET()
 {
-  softSerial.begin(115200);
-  softSerial.print("AT\r\n");
+  // softSerial.begin(115200);
+  Serial1.print("AT\r\n");
   delay(200);
   Serial.println("AT+CWMODE=1");
-  softSerial.print("AT+CWMODE=1\r\n");
+  Serial1.print("AT+CWMODE=1\r\n");
   delay(100);
   Serial.println("AT+CWLAPOPT=1,14"); //SSID,RSSI,MAC取得モード設定
-  softSerial.print("AT+CWLAPOPT=1,14\r\n");
+  Serial1.print("AT+CWLAPOPT=1,14\r\n");
   delay(1000);
 }
 
@@ -355,7 +356,7 @@ void WIFI_SCAN()
   {
   bool PayloadFlag=false;
   Serial.println("AT+CWLAP"); //SSID,RSSI,MAC取得
-  softSerial.print("AT+CWLAP\r\n");
+  Serial1.print("AT+CWLAP\r\n");
   delay(1000);
   RxBufDelete();
   delay(100);
@@ -365,10 +366,10 @@ void WIFI_SCAN()
   while(delaytime)
   {
     // uint8_t BuffNow1=(uint8_t)Serial.available();
-    uint8_t BuffNow1=(uint8_t)softSerial.available();
+    uint8_t BuffNow1=(uint8_t)Serial1.available();
     if(BuffNow1>0)
     {
-      char BuffNow=softSerial.read();
+      char BuffNow=Serial1.read();
  //     softSerial.print(BuffNow);
       if((RxIndex<sizeof(Payloadbuf[MacIndex]))&&!(PayloadFlag==false&&BuffNow=='O')&&MacIndex<10)
       {//        
@@ -404,10 +405,10 @@ void RxBufDelete()
 {
   while(1)
   {
-    if((int)softSerial.available()>0)
+    if((int)Serial1.available()>0)
     {
 //      softSerial.print(Serial.read());
-      softSerial.read();
+      Serial1.read();
     }
     else
     {

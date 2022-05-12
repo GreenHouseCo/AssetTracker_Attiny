@@ -16,7 +16,7 @@
 
 bool sigfox_Send_PayLoad(uint8_t* PayloadSend)
 {
-  softSerial.begin(9600); 
+  Serial1.begin(9600); 
   delay(100);
   Serial.println("Sigfox start");
   digitalWrite(Sigfox_Pw, HIGH);
@@ -39,18 +39,18 @@ bool sigfox_Send_PayLoad(uint8_t* PayloadSend)
 //  Serial.print(sigfoxBuf);
 //  delay(1000);
 
-  softSerial.printf("AT$SF=%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X\r",
-                      PayloadSend[0],
-                      PayloadSend[1],
-                      PayloadSend[2],
-                      PayloadSend[3],
-                      PayloadSend[4],
-                      PayloadSend[5],
-                      PayloadSend[6],
-                      PayloadSend[7],
-                      PayloadSend[8],
-                      PayloadSend[9],
-                      PayloadSend[10],
+  Serial1.printf("AT$SF=%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X\r\n",
+                     PayloadSend[0],
+                     PayloadSend[1],
+                     PayloadSend[2],
+                     PayloadSend[3],
+                     PayloadSend[4],
+                     PayloadSend[5],
+                     PayloadSend[6],
+                     PayloadSend[7],
+                     PayloadSend[8],
+                     PayloadSend[9],
+                     PayloadSend[10],
                       PayloadSend[11]);//sigfoxBuf); 
 
   bool Sendflag=false;
@@ -58,9 +58,9 @@ bool sigfox_Send_PayLoad(uint8_t* PayloadSend)
   bool delaytime=true;                       
   while(delaytime)
   {
-    if (softSerial.available()) 
+    if (Serial1.available()) 
     { /* check RX */
-        char RxReadC = softSerial.read();
+        char RxReadC = Serial1.read();
         if(RxReadC=='O')
         {
             Serial.print(RxReadC);
@@ -81,7 +81,7 @@ bool sigfox_Send_PayLoad(uint8_t* PayloadSend)
   
   digitalWrite(Sigfox_Pw, LOW);
   delay(200);
-  softSerial.end();
+  Serial1.end();
   delay(200);
   myWorkFlag.ModeSet=3;
 
@@ -105,30 +105,30 @@ void set_Payload(uint8_t *payload){
 }
 
 void sigfox_Get_ID(char *sigfoxID){
-  softSerial.begin(9600);
+  Serial1.begin(9600);
   digitalWrite(Sigfox_Pw, HIGH);
   delay(1000);
-  softSerial.print("AT$I=10\r");
+  Serial1.print("AT$I=10\r");
   sigfox_Get_Data(sigfoxID, 8, 5);
-//  Serial.print(sigfoxID);
+  Serial.print(sigfoxID);
   delay(100);
   digitalWrite(Sigfox_Pw, LOW);
   // delay(200);
-  softSerial.end();
+  Serial1.end();
   delay(200); 
   // delay(100);
 }
 
 void sigfox_Get_PAC(char *sigfoxPAC){
-  softSerial.begin(9600);
+  Serial1.begin(9600);
   digitalWrite(Sigfox_Pw, HIGH);
   delay(1000);
-  softSerial.print("AT$I=11\r");
+  Serial1.print("AT$I=11\r");
   sigfox_Get_Data(sigfoxPAC, 16, 5);
-//  Serial.print(sigfoxPAC);
+  Serial.print(sigfoxPAC); 
   delay(100);
   digitalWrite(Sigfox_Pw, LOW);
-  softSerial.end();
+  Serial1.end();
   delay(200);
   // delay(100);
 }
@@ -149,9 +149,9 @@ void sigfox_Get_Data(char *data_Buf, uint8_t bufLength, uint8_t waitingTime){
   uint32_t TimeStart=NowTime();
   bool delaytime=true;
   while(delaytime){
-    uint8_t Buffnow=softSerial.available();
+    uint8_t Buffnow=Serial1.available();
     if (Buffnow) { /* check RX */
-        inByte = softSerial.read();
+        inByte = Serial1.read();
 //        Serial.print(inByte);
         if((inByte>=48&&inByte<=57)||(inByte>=65&&inByte<=70)||(inByte>=97&&inByte<=102)||inByte==0x4F||inByte==0x4B){
           data_Buf[count] = char(inByte);
@@ -176,12 +176,12 @@ void sigfox_Get_Data(char *data_Buf, uint8_t bufLength, uint8_t waitingTime){
 /*  Return: None                                                                */
 /********************************************************************************/
 void test_Sigfox(){
-  softSerial.begin(9600);
+  Serial1.begin(9600);
   digitalWrite(Sigfox_Pw, HIGH);
   delay(2000);
-  softSerial.print("AT$CW=923200000,1,14\r\n");
+  Serial1.print("AT$CW=923200000,1,14\r\n");
   delay(1000);
   digitalWrite(Sigfox_Pw, LOW);
-  softSerial.end();
+  Serial1.end();
   delay(2000);
 }

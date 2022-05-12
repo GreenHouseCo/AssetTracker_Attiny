@@ -40,7 +40,7 @@
   #define Sensor_SCL      9     //    11  I2C SCL端子
 //--------Signal---------PIN Define--Device NO******Pin Assign
   
-SoftwareSerial softSerial(RXD_Sigfox, TXD_Sigfox);  // RX, TX
+// SoftwareSerial softSerial(RXD_Sigfox, TXD_Sigfox);  // RX, TX
 
 #define DebugP    0   // Debug Print Uart 
 uint8_t MacPayload[12]={0};
