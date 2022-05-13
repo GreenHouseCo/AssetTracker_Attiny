@@ -36,6 +36,7 @@ void setting_Menu(){
       Serial.printf("1: Device Settings\r\n");
       Serial.printf("2: Factory Reset\r\n");
       Serial.printf("3: Get Sigfox Info\r\n");
+      Serial.printf("4: Wifi scan\r\n");
       Serial.printf("0: Start\r\n");
       Serial.printf("\r\n%S", "Input Number: ");
       while(1){
@@ -60,6 +61,11 @@ void setting_Menu(){
               saveToEEPROM();
               sigfox_Get_PAC(pCache->sigfox_PAC);
               saveToEEPROM();
+              breakLoop = true;
+              break;
+            case 4:
+              Serial.printf("4: Wifi scan\r\n");
+              test_Wifi();
               breakLoop = true;
               break;
             case 0:

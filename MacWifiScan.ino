@@ -256,7 +256,7 @@ bool PayLoad_Prosse()
           dPrintln("WhiteMac1"); 
           break;
         }
-        else
+        else if(strcmp(RxSSID[WhiteMac1], RxSSID[i]) != 0)
         {
           int IntRSSI1=atoi(RxRSSI[WhiteMac1]);
           int8_t IntRSSI2=atoi(RxRSSI[i]);
@@ -291,7 +291,7 @@ bool PayLoad_Prosse()
         {
           MacRandom1=i;
         }
-        else
+        else if(strcmp(RxSSID[MacRandom1], RxSSID[i]) != 0)
         {
           MacRandom2=i;
         }
@@ -370,9 +370,10 @@ void WIFI_SCAN()
     if(BuffNow1>0)
     {
       char BuffNow=Serial1.read();
- //     softSerial.print(BuffNow);
+        //softSerial.print(BuffNow);
+      Serial.print(BuffNow);
       if((RxIndex<sizeof(Payloadbuf[MacIndex]))&&!(PayloadFlag==false&&BuffNow=='O')&&MacIndex<10)
-      {//        
+      {
         if(BuffNow=='+')
         {
           MacIndex++;
@@ -416,4 +417,29 @@ void RxBufDelete()
     }
     delay(1);
   }
+}
+
+/********************************************************************************/
+/*  Name: test_Wifi..                                                           */
+/*  Detail: test Command wifi                                                  */
+/*  Argument: None                                                              */
+/*  Return: None                                                                */
+/********************************************************************************/
+void test_Wifi(){
+  Serial1.begin(115200);
+  memset(MacPayload,0,sizeof(MacPayload));
+  WIFI_ON();
+  WIFI_RESET(); 
+  Serial.println(" ");  
+  for(uint8_t i=0; i<2;i++)
+  {
+    WIFI_SCAN();
+    delay(100);
+  }
+  WIFI_OFF();
+  delay(500);
+  Serial.println("");
+  delay(200);
+  Serial1.end();
+  delay(200);
 }
