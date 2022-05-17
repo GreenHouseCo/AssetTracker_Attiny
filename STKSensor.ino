@@ -41,7 +41,7 @@ void Accel_Init(){
 //  delay(100); 
   i2c_write(0x0F,0x16,0x07);
   delay(100);
-  i2c_write(0x0F,0x19,0xF0); // INT1<>INT2 Board wrong => NOW INT1 ENABLE
+  i2c_write(0x0F,0x19,0x0F); // INT1<>INT2 Board wrong => NOW INT1 ENABLE
   delay(100);
 //  char buff=i2c_Read(0x0F,0x00);
 //  delay(10);
