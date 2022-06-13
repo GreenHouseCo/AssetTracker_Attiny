@@ -181,7 +181,7 @@ void PIT_INT_setup(RTC_PERIOD_t ii) {
   // Serial.println(F("\r\nWAKE UP!\r\n"));
   dPrintln( "-set CLK- PIT int" );
   CPU_CCP = CCP_IOREG_gc;
-  CLKCTRL.XOSC32KCTRLA = 0x02; // Open the crystal oscillator 
+  CLKCTRL.OSC32KCTRLA = 0x02; // Open the crystal oscillator 
   // Initialize RTC
   // Serial.print( "-set pit-" );
    /* Internal 1.024 kHz oscillator*/

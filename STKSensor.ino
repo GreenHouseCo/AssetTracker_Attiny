@@ -49,6 +49,7 @@ void Accel_Init(){
 //  delay(100);
   i2c_write(0x0F,0x11,0x5E );
   delay(100);
+  Wire.end();
 }
 
 void i2c_write(int sensor_Addr,int register_Addr, int val)

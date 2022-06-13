@@ -29,10 +29,10 @@
   bool    bret = false;
   uint8_t wkCnt = 0;
   delay(1);
-  Serial.print("ssidTest: ");
-  Serial.println(ssid);
-  Serial.print("nameTest: ");
-  Serial.println(name);
+  // Serial.print("ssidTest: ");
+  // Serial.println(ssid);
+  // Serial.print("nameTest: ");
+  // Serial.println(name);
   delay(1);
   wkCnt = strlen(ssid);
   for(int i = 0; i<wkCnt;i++) {
